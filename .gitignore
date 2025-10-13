@@ -1,0 +1,7 @@
+__pycache__/
+embeddings/
+logs/
+outputs/
+outputs_old/
+plots/
+setup.sh
