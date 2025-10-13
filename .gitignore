@@ -5,3 +5,4 @@ outputs/
 outputs_old/
 plots/
 setup.sh
+.env
