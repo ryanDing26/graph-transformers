@@ -326,7 +326,7 @@ class LazySlideNucleusExtractor:
         )
         
         # Rasterize polygon
-        mask = np.zeros((patch_size, patch_size), dtype=bool)
+        mask = np.zeros((patch_size, patch_size), dtype=np.uint8)
         
         # Get polygon coordinates
         if hasattr(polygon_shifted.exterior, 'coords'):
@@ -338,9 +338,9 @@ class LazySlideNucleusExtractor:
             coords[:, 1] = np.clip(coords[:, 1], 0, patch_size - 1)
             
             # Fill polygon
-            cv2.fillPoly(mask, [coords], True)
+            cv2.fillPoly(mask, [coords], 1)
         
-        return mask
+        return mask.astype(bool)
     
     def _extract_morphology_features(self, nucleus_polygon: Polygon) -> Dict[str, float]:
         """Extract morphological features from nucleus polygon"""
@@ -932,7 +932,7 @@ def main():
     import argparse
     
     parser = argparse.ArgumentParser(description='Phase 1: Nucleus-only graph construction')
-    parser.add_argument('wsi_path', type=str, help='Path to WSI file')
+    parser.add_argument('--wsi_path', type=str, help='Path to WSI file')
     parser.add_argument('--output_dir', type=str, default='output', help='Output directory')
     parser.add_argument('--tile_size', type=int, default=512, help='Tile size')
     parser.add_argument('--mpp', type=float, default=0.5, help='Microns per pixel')
