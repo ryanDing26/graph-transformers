@@ -6,3 +6,5 @@ outputs_old/
 plots/
 setup.sh
 .env
+__pycache__
+logs/

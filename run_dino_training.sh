@@ -2,10 +2,9 @@
 #SBATCH --job-name=dino_nucleus
 #SBATCH --output=logs/dino_%j.out
 #SBATCH --error=logs/dino_%j.err
-#SBATCH --time=48:00:00
-#SBATCH --mem=64G
+#SBATCH --mem=256GB
 #SBATCH --cpus-per-task=8
-#SBATCH --gres=gpu:1
+#SBATCH --gres=gpu:4
 #SBATCH --partition=gpu-normal
 
 # ============================================================================
@@ -27,7 +26,7 @@ echo "================================================"
 # Paths
 DATA_DIR="/shares/sinha/rding/graph-transformers/outputs"
 OUTPUT_DIR="/shares/sinha/rding/graph-transformers/model_checkpoints"
-LOG_DIR="$OUTPUT_DIR/logs"
+LOG_DIR="/shares/sinha/rding/graph-transformers/logs/training"
 
 # Model Architecture
 HIDDEN_DIM=256
@@ -141,26 +140,7 @@ echo "Starting DINO Training"
 echo "================================================"
 echo ""
 
-python train_dino_subgraphs.py \
-    --data_dir "$DATA_DIR" \
-    --output_dir "$OUTPUT_DIR" \
-    --hidden_dim $HIDDEN_DIM \
-    --num_heads $NUM_HEADS \
-    --num_layers $NUM_LAYERS \
-    --output_dim $OUTPUT_DIM \
-    --dino_out_dim $DINO_OUT_DIM \
-    --teacher_temp $TEACHER_TEMP \
-    --student_temp $STUDENT_TEMP \
-    --sampling_strategy $SAMPLING_STRATEGY \
-    --subgraph_size $SUBGRAPH_SIZE \
-    --subgraphs_per_graph $SUBGRAPHS_PER_GRAPH \
-    --batch_size $BATCH_SIZE \
-    --epochs $EPOCHS \
-    --lr $LR \
-    --weight_decay $WEIGHT_DECAY \
-    --warmup_epochs $WARMUP_EPOCHS \
-    --device $DEVICE \
-    --seed $SEED
+python train_dino_subgraphs.py
 
 TRAIN_EXIT_CODE=$?
 
