@@ -61,6 +61,7 @@ SEED=42
 
 source /opt/apps/anaconda3/bin/activate
 conda activate histograph
+export CUDA_VISIBLE_DEVICES=1
 
 echo ""
 echo "Environment:"
@@ -140,8 +141,19 @@ echo "Starting DINO Training"
 echo "================================================"
 echo ""
 
-python train_dino_subgraphs.py
-
+python train_dino_optimized.py \
+    --data_dir /shares/sinha/rding/graph-transformers/outputs \
+    --output_dir /shares/sinha/rding/graph-transformers/model_checkpoints \
+    --epochs 100 \
+    --batch_size 6 \
+    --hidden_dim 256 \
+    --num_heads 8 \
+    --num_layers 4 \
+    --dino_out_dim 16384 \
+    --subgraph_size 1000 \
+    --subgraphs_per_graph 4 \
+    --use_amp
+    
 TRAIN_EXIT_CODE=$?
 
 echo ""
